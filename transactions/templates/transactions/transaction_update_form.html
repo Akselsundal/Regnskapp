@@ -1,0 +1,28 @@
+    {%extends "../base.html"%}
+{% block content %}
+
+<h1> Oppdater </h1>    
+    <form class="needs-validation" novalidate action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+        
+        {% for f in form %}
+        <p>
+            {{f.label}}
+            {{f}}
+        
+        {% if f.label == 'Project' %}
+            <a href="{%url 'transactions:project-create-redirect' object.pk%}" class="btn-outline-info btn-sm" role="button" aria-pressed="true">Lag nytt prosjekt</a>
+        {% endif %}
+        
+        {% if f.label == 'Account' %}
+            <a href="{%url 'transactions:account-create-redirect' object.pk%}" class="btn-outline-info btn-sm" role="button" aria-pressed="true">Lag ny konto</a>
+        {% endif %}
+        </p>
+
+        {% endfor %}       
+        
+        <input type="submit">
+    </form>
+
+{% endblock  %}

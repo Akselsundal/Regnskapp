@@ -1,0 +1,41 @@
+{%extends "../base.html"%}
+{% block content %}
+
+
+<h1> Viser transaksjonsdetaljer </h1>
+<p>
+<table class="table table-sm table-hover table-light">
+
+<thead>
+    <tr> 
+      <!--th scope="col"> # </th-->
+      <th scope="col"> Dato </th>
+      <th scope="col"> Type </th>
+      <th scope="col"> Forklaring </th>
+      <th scope="col"> Mengde </th>
+      <th scope="col"> Kategori </th>
+      <th scope="col"> Konto </th>
+
+    </tr>
+    </thead>
+ <tr>
+      <!--td scope="row">{{ t.id }}</td-->
+      <td scope="row">{{ object.date|date:"d-m-y" }}</td>
+      <td>{{ object.transaction_type }}</td>
+      <td>{{ object.description }}</td>
+      <td>{{ object.amount }}</td>
+      <td>{{ object.category|default_if_none:"" }}</td>
+      <td> {{object.account|default_if_none:""}} </td>
+    </tr>
+</table>
+
+</p>
+
+
+<p>
+
+<td><a href="{% url 'transactions:transaction-update' object.pk %}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Ender/bokfør</a> </td>
+
+</p>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{%extends "../base.html"%}
+{% block content %}
+
+
+<h1> Fyll inn budsjett </h1>    
+    <form method="post">
+    {% csrf_token %}
+        {{ formset.management_form }}
+        <table>
+            {% for form in formset %}
+            {{ form }}
+            {% endfor %}
+        </table>
+        <input type="submit">
+
+    </form>
+
+{% endblock %}

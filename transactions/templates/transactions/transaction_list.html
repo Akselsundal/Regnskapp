@@ -1,0 +1,74 @@
+
+{%extends "../base.html"%}
+{% block content %}
+
+<h2> Resultat for periode: </h2>
+
+<table class="table table-sm table-hover table-light">
+
+    <thead>
+    <tr> 
+      <th scope="col"> Konto </th>
+      <th scope="col"> Sum  </th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+
+    {% for key, value in account_dict.items %}
+    
+    <tr>
+      <td scope="row">{{key}}</td>
+      <td> {{value}}
+    </tr>
+    
+    {% endfor %}
+    </tbody>
+</table>
+
+   
+
+<h3> Transaksjoner for perioden </h3>
+<table class="table table-sm table-hover table-light">
+
+    <thead>
+    <tr> 
+      <th scope="col"> i </th>
+      <th scope="col"> Dato </th>
+      <th scope="col"> Type </th>
+      <th scope="col"> Forklaring </th>
+      <th scope="col"> Mengde </th>
+      <th scope="col"> Konto </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for t in transaction_list %}
+    
+    <tr>
+      <td scope="row">
+      <a href="{%url 'transactions:transaction-detail' t.pk %}" class="btn-sm btn-outline-dark btn-lg active" role="button" aria-pressed="true">i</a>
+      </td>
+      <td>{{ t.date|date:"d-m-y" }}</td>
+      <td>{{ t.transaction_type }}</td>
+      <td>{{ t.description }}</td>
+      <td>{{ t.amount }}</td>
+      {%if t.account %}
+        <td> {{t.account.name|default_if_none:""}} </td>
+
+      {%else%}
+        <td scope="row">
+          <a href="{%url 'transactions:transaction-update' t.pk %}" class="btn-sm btn-outline-dark btn-lg active" role="button" aria-pressed="true">Bokfør</a>
+        </td>
+      {% endif %}
+    </tr>
+    
+    {% endfor %}
+    </tbody>
+</table>
+
+   
+
+
+{% endblock %}

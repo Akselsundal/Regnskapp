@@ -1,0 +1,46 @@
+{%extends "../base.html"%}
+{% block content %}
+
+<h2> Resultat frå denne perioden </h2>
+  <table class="table table-hover table-light">
+          <thead>
+            <tr>
+                <th scope="col"> Detaljer </th>
+                <th scope="col"> Konto </th>
+                <th scope="col"> Resultat </th>
+            </tr>
+          </thead>
+         <tbody>
+             <tr>
+                 <th class="table-secondary" colspan="6"> Utgifter </th>
+             </tr>
+             {% for obj in object_list %}
+             <tr>
+                 <td scope="row"> 
+                  <a class="btn btn-secondary"  href="" role="button">
+                      i
+                    </a>
+              
+                  </td>
+                 <td>{{key}}</td>
+                 <td>kr {{value|get_from_list:0 }}</td>
+       
+             </tr>
+             {%if key == "Andre utgifter" %}
+              <tr>
+                  <th class="table-info" colspan="2">SUM</th>
+                  <th class="table-info" colspan="5"> kr {{total|get_from_dict:"expence"}} </th>
+       
+
+              </tr>
+              <tr>
+                  <th class="table-secondary" colspan="6"> Inntekter </th>
+              </tr>
+    
+             {%endfor%}
+          </tbody>
+          
+      </table>
+{%include "transactions/transaction_base.html" with transaction_list=object_list%}
+
+{% endblock  %}

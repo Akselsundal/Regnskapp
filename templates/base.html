@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+    <head> 
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>REGNSKAPP</title>
+
+    </head>
+    {% load static %}
+
+    <body>
+        <!--div style="height:5rem;"--> 
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">            
+            <a class="navbar-brand" href="#">
+                <img src="{%static './logo_dark.svg'%}" width="100" height="30" alt="">
+            </a>            <!-- Links -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'transactions:transactions_list'%}">Transaksjoner</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> Budsjett</a>
+                </li>  
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> Hent resultat</a>
+                </li> 
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> Statistikk</a>
+                </li> 
+                
+                               
+            </ul>
+            <span class="navbar-item">
+                <li>
+                    <a href="{%url 'transactions:data_import'%}" class="btn btn-outline-info" role="button">Importér</a>
+                </li>    
+            </span>
+            </div>
+        </nav>
+    </div>
+
+
+    </body>
+
+
+<section class="bg-light" id="about">
+<div style="margin-left: 15px">
+<div style="margin-top: 15px">
+
+        {% block content %}
+
+        {% endblock %}
+
+        
+</html>
