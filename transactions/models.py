@@ -3,8 +3,13 @@
 Inneholder modeller for transaksjoner og
 tilhøyrande konto og kategori
 """
+
 from django.db import models
 from django.urls import reverse
+ACCOUNT_CHOICES = [
+    ("expence", "expence"),
+    ("deposit", "deposit")
+]
 
 
 class Project(models.Model):
@@ -27,17 +32,19 @@ class Project(models.Model):
 
 
 class Category(models.Model):
-    """Kategori"""
+    "Kategori"""
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=100)
+    category_type = models.CharField(
+        max_length=8,
+        choices=ACCOUNT_CHOICES,
+        blank=False,
+        null=True,
+        default="expence")
 
     def __str__(self):
         return self.name
 
-ACCOUNT_CHOICES = [
-    ("expence", "expence"),
-    ("deposit", "deposit")
-]
 
 class Account(models.Model):
     """Konto"""
@@ -69,9 +76,9 @@ HAPPY_CHOICES = [
 ]
 
 class Transaction(models.Model): #Klasse som representerer ein transaksjon
-    """
-    Representerer eit objekt
-    """
+    
+    """Representerer eit objekt"""
+    
     date = models.DateField()
     transaction_type = models.CharField(max_length=30, null=True)
     description = models.CharField(max_length=200)
@@ -114,3 +121,12 @@ class Transaction(models.Model): #Klasse som representerer ein transaksjon
     def get_absolute_url(self):
         """Sender til detaljer"""
         return reverse('transactions:transaction-detail', kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs): # pylint: disable=signature-differs
+        """Setter kategori lik den som tilhøyrer kontoen"""
+        print("kwargs: ", kwargs)
+        if self.account is not None:
+            self.category = self.account.category
+        return super(Transaction, self).save(*args, **kwargs)
+
+

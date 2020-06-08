@@ -1,4 +1,4 @@
-"""Views"""
+"""Views
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.forms import inlineformset_factory
@@ -12,13 +12,13 @@ from .forms import BudgetPostForm
 NUMBER_OF_ACCOUNTS = Account.objects.count()
 
 class BudgetCreateView(CreateView):
-    """Lagar eit tomt budsjett"""
+    "Lagar eit tomt budsjett""
     model = Budget
     fields = ['name', 'start_date', 'end_date']
 
 
 def create_budgetpost(request, pk):
-    """Fyller inn budsjettpostane"""
+    "Fyller inn budsjettpostane""
     budget = Budget.objects.get(pk=pk)
     accounts = Account.objects.all()
     BudgetPostInlineFormSet = inlineformset_factory(Budget,
@@ -37,3 +37,5 @@ def create_budgetpost(request, pk):
         formset = BudgetPostInlineFormSet(instance=budget,
                                           initial=[{'account' : a.id} for a in accounts])
     return render(request, 'budget/budgetpost_form.html', {'formset': formset})
+
+"""

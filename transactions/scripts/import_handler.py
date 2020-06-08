@@ -33,6 +33,7 @@ def format_fix(row):
     komma med punktom i desimal. I tillegg slår den sammen utgift og
     inntekt til "amount"
     """
+
     #Namnsetter alle (relevante) radene:
     date = row[0]
     description = row[1]
@@ -88,6 +89,7 @@ def importer():
     Denne vil returnere det som ikkje vart lagt inn,
     fordi dei allereie eksisterer.
     """
+
     #Lager liste der eg legg transaksjonar som blir henta og ikkje laga:
     get_list = []
 

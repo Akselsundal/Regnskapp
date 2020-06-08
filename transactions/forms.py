@@ -14,11 +14,26 @@ class TransactionForm(forms.ModelForm):
         queryset=Account.objects.all(),
         widget=forms.Select(attrs={'class' : 'form-control form-group col-md-2'}))
 
+
     class Meta:
         model = Transaction
         fields = (
+            'account',
             'transaction_type',
             'description',
             'project',
             'happy'
         )
+        widgets = {
+            'account' : forms.Select(attrs={'class' : 'form-control form-group col-md-2'}),
+                'transaction_type' : forms.TextInput(
+                attrs={'class' : 'form-control col-md-4', 'rows' : '4'}),
+            'description' : forms.TextInput(attrs={
+                'class' : 'form-control col-md-7', 'rows' : '4'}),
+            'project' : forms.Select(attrs={'class' : 'form-control form-group col-md-2'}),
+            'happy' : forms.Select(attrs={'class' : 'form-control form-group col-md-2'})
+        }
+        labels = {
+            'account' : 'Konto'
+        }
+

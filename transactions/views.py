@@ -6,7 +6,6 @@ from django.views.generic import DetailView, UpdateView, CreateView
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.core import exceptions
-#from django.urls import reverse
 from .forms import TransactionForm
 from .models import Transaction, Category, Account, Project
 from .scripts.import_handler import importer
@@ -15,7 +14,7 @@ from .scripts.tools import sum_account
 # Create your views here.
 
 class TransactionView(View):
-    """Generic view function for transactons"""
+    "Generic view function for transactons"
     t = Transaction.objects.all()
     a = sum_account(t)
     template_name = "transactions/transaction_list.html"
@@ -25,7 +24,7 @@ class TransactionView(View):
     }
 
     def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument     
-        """Enkel get-funksjon som henter ut eventuelle datoer og lagar nytt queryset"""
+        """"Enkel get-funksjon som henter ut eventuelle datoer og lagar nytt queryset"""
         if kwargs:
             t = Transaction.objects.filter(date__range=(kwargs["start_date"], kwargs["end_date"]))
             self.context["transaction_list"] = t
@@ -47,17 +46,6 @@ class TransactionUpdate(UpdateView):
     template_name_suffix = '_update_form'
     model = Transaction
     form_class = TransactionForm
-
-    def form_valid(self, form):
-        """Fikser at kategori samsvarer med konto og lagrer"""
-        print(self.object)
-        self.object.set_category()
-        self.object.save()
-        print(self.object)
-        return super().form_valid(form)
-
-
-
 
 class AccountCreateView(CreateView):
     """Oppretter ein konto"""
@@ -108,4 +96,3 @@ def data_import(request):
     #conflicting_transactions = Transaction.objects.filter(pk__in=pk_l)
     #Transaction.objects.all().delete()
     return HttpResponse("la inn objects")
-    
