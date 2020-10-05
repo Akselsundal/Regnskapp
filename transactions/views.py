@@ -4,18 +4,18 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import DetailView, UpdateView, CreateView
 from django.http import HttpResponse
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.core import exceptions
-from .forms import TransactionForm
+from .forms import TransactionForm, CreateTransactionForm
 from .models import Transaction, Category, Account, Project
 from .scripts.import_handler import importer
-from .scripts.tools import sum_account
+from .scripts.tools import sum_account, sum_cat
 
 # Create your views here.
 
 class TransactionView(View):
     "Generic view function for transactons"
-    t = Transaction.objects.all()
+    t = Transaction.objects.all().order_by("-date")
     a = sum_account(t)
     template_name = "transactions/transaction_list.html"
     context = {
@@ -89,6 +89,65 @@ class ProjectCreateView(CreateView):
 class CategoryDetailView(DetailView):
     """Viser ein kategori"""
     model = Category
+
+    def get_context_data(self, **kwargs):
+        t = Transaction.objects.all()
+        sum_dict = sum_cat(t, self.object)
+        data = super().get_context_data(**kwargs)
+        data['account_dict'] = sum_dict
+        data['transaction_list'] = t.filter(category=self.object.pk)
+        return data
+
+class AccountDetailView(DetailView):
+    model = Account
+    def get_context_data(self, **kwargs):
+        t = Transaction.objects.all()
+        account_total = sum_cat(t, self.object.category)[self.object]
+        data = super().get_context_data(**kwargs)
+        data['account_total'] = account_total
+        data['transaction_list'] = t.filter(account=self.object)
+        return data
+
+def split_transaction(request, **kwargs):
+    """Gir mulighet for å dele ein transaksjon i fleire"""
+    t_id = kwargs['pk']
+    t = Transaction.objects.get(pk=t_id)
+    original_amount = t.amount
+
+    if request.method == 'POST':
+        create_form = CreateTransactionForm(initial={
+            'date' : t.date,
+        })
+
+        print(create_form)
+
+        if create_form.is_valid:
+            create_transaction = create_form.save(commit=False)
+            print("create: ", create_transaction)
+            new_amount = original_amount - create_transaction.amount
+            t.amount = new_amount
+            create_form.save()
+            return reverse('transactions:TransavtionView')
+
+
+    else:
+        create_form = CreateTransactionForm(initial={
+            'date' : t.date,
+            'transaction_type' : t.transaction_type,
+            'description' : t.description,
+            'amount' : t.amount,
+            'category' : t.category,
+            'account' : t.account
+        })
+
+    context = {
+        'object' : t,
+        'create_form' : create_form
+    }
+    return render(request, 'transactions/transaction_split.html', context)
+
+
+
 
 def data_import(request):
     """Importerer transaksjoner"""

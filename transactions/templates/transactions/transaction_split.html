@@ -1,0 +1,61 @@
+{%extends "../base.html"%}
+{% block content %}
+
+
+<h1> Splitt transaksjonen </h1>
+<p>
+<table class="table table-sm table-hover table-light">
+
+<thead>
+
+    <tr> 
+      <!--th scope="col"> # </th-->
+      <th scope="col"> Dato </th>
+      <th scope="col"> Type </th>
+      <th scope="col"> Forklaring </th>
+      <th scope="col"> Mengde </th>
+      <th scope="col"> Konto </th>
+
+    </tr>
+</thread>
+<tr>
+     <td colspan=5><b> Opprinnelig transakjson </b> </h5>
+
+</tr>
+
+ <tr>
+      <td scope="row">{{ object.date|date:"d-m-y" }}</td>
+      <td>{{ object.transaction_type }}</td>
+      <td>{{ object.description }}</td>
+      <td>{{ object.amount }}</td>
+      <td> {{objcet.account }} </td>
+</tr>
+
+<thead>
+    <tr>
+     <h5>   <td colspan=5><b> Ny transakjson </b></h5>
+    </tr>
+
+ <tr>
+      <td scope="row">{{ object.date|date:"d-m-y" }}</td>
+      <td>{{ form.transaction_type }}</td>
+      <td>{{ form.description }}</td>
+      <td>{{ form.amount }}</td>
+      <td> {{form.account }} </td>
+</tr>
+
+<!--
+</thead>
+    {{create_form.as_table}}
+</table>
+
+</p>
+    <input type="submit">
+
+</form>
+
+<p>
+    <td><a href="{% url 'transactions:transaction-split' object.pk %}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Split transaksjon</a> </td>
+</p>
+-->
+{% endblock %}

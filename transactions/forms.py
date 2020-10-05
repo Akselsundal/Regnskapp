@@ -4,36 +4,43 @@ from .models import Transaction, Account
 
 class TransactionForm(forms.ModelForm):
     """Til å endre eller bokføre transaksjon"""
-    description = forms.CharField(
-        max_length=100,
-        required=True,
-        widget=forms.TextInput(attrs={
-            'class' : 'form-control col-md-7', 'rows' : '4'})
-        )
     account = forms.ModelChoiceField(
         queryset=Account.objects.all(),
         widget=forms.Select(attrs={'class' : 'form-control form-group col-md-2'}))
-
-
+    amount = forms.DecimalField(
+            max_digits=10,
+            decimal_places=2,
+            disabled=True
+        )
     class Meta:
-        model = Transaction
+        model = Transaction    
         fields = (
-            'account',
             'transaction_type',
             'description',
-            'project',
-            'happy'
-        )
+            'amount',
+            'account',
+            'project'
+        )  
+
         widgets = {
-            'account' : forms.Select(attrs={'class' : 'form-control form-group col-md-2'}),
-                'transaction_type' : forms.TextInput(
+            'transaction_type' : forms.TextInput(
                 attrs={'class' : 'form-control col-md-4', 'rows' : '4'}),
             'description' : forms.TextInput(attrs={
                 'class' : 'form-control col-md-7', 'rows' : '4'}),
             'project' : forms.Select(attrs={'class' : 'form-control form-group col-md-2'}),
-            'happy' : forms.Select(attrs={'class' : 'form-control form-group col-md-2'})
+            'happy' : forms.Select(attrs={'class' : 'form-control form-group col-md-2'}),
         }
-        labels = {
-            'account' : 'Konto'
-        }
+    
 
+class CreateTransactionForm(forms.ModelForm):
+    
+    class Meta:
+        model = Transaction
+        fields = (
+            'date',
+            'transaction_type',
+            'description',
+            'amount',
+            'project',
+            'account'
+        )

@@ -34,7 +34,8 @@
 
 <p>
 
-<td><a href="{% url 'transactions:transaction-update' object.pk %}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Ender/bokfør</a> </td>
+<td><a href="{% url 'transactions:transaction-update' object.pk %}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Endre/bokfør</a> </td>
+<td><a href="{% url 'transactions:transaction-split' object.pk %}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Split transaksjon</a> </td>
 
 </p>
 

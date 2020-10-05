@@ -1,0 +1,12 @@
+{%extends "../base.html"%}
+{% block content %}
+{% load transaction_extras %}
+
+<ul>
+{% for budget in object_list %}
+    <a href={% url 'budget:budget-detail' budget.pk%}>{{ budget.start_date|date:"M" }}</a>
+{% empty %}
+    <li>Du har ikkje oppretta noko budsjett</li>
+{% endfor %}
+
+{% endblock %}

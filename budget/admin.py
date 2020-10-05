@@ -5,4 +5,3 @@ from .models import Budget, BudgetPost
 
 admin.site.register(Budget)
 admin.site.register(BudgetPost)
-

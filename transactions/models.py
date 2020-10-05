@@ -75,13 +75,25 @@ HAPPY_CHOICES = [
 
 ]
 
+'''
+class RawTransaction(models.Model):
+    This model is automatically inserted in the database from csv file
+    date = models.DateField() # Date transaction happened
+    transaction_type = models.CharField(max_length=30, null=True) # Expence or Income
+    description = models.CharField(max_length=200) 
+    amount = models.DecimalField(max_digits=10,
+                                 decimal_places=2,
+                                 default=0)
+'''
+
 class Transaction(models.Model): #Klasse som representerer ein transaksjon
-    
-    """Representerer eit objekt"""
-    
-    date = models.DateField()
-    transaction_type = models.CharField(max_length=30, null=True)
-    description = models.CharField(max_length=200)
+    """
+    The posted transaction as created by the user. 
+    """
+
+    date = models.DateField() # Date transaction happened
+    transaction_type = models.CharField(max_length=30, null=True) # Expence or Income
+    description = models.CharField(max_length=200) 
     amount = models.DecimalField(max_digits=10,
                                  decimal_places=2,
                                  default=0)
@@ -95,12 +107,13 @@ class Transaction(models.Model): #Klasse som representerer ein transaksjon
                                  blank=True,
                                  null=True,
                                  on_delete=models.SET_NULL
-                                 )
+                                 ) # unnecesary? 
     project = models.ForeignKey(Project,
                                 blank=True,
                                 null=True,
                                 on_delete=models.SET_NULL
                                 )
+    
 
     def is_posted(self):
         """Sjekker om transaksjonen er bokført"""

@@ -1,0 +1,20 @@
+{%extends "../base.html"%}
+{% block content %}
+
+
+<h5> Viser kontodetajer </h5>
+<p>
+   <h2>{{object.category.name}}:  {{object.name}} </h2>
+</p>
+<p> 
+    {{object.description}}
+</p>
+<p> 
+   Total = {{account_total}}
+</p>
+
+<h3> Transaksjoner for {{object.name|lower}} </h3>
+
+{% include 'transactions/transaction_base.html' %}
+
+{% endblock %}
